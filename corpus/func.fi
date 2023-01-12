@@ -1,0 +1,51 @@
+==============
+basic function
+==============
+
+f = () => nil
+
+---
+
+(source_file
+  (assignment
+    (ident)
+    (func (params) (inline_func_suite (literal)))))
+
+=======================
+basic function w/ param
+=======================
+
+f = (a) => nil
+
+---
+
+(source_file
+  (assignment
+    (ident)
+    (func (params (ident)) (inline_func_suite (literal)))))
+
+==========================
+basic function w/ 2 params
+==========================
+
+f = (a, b) => nil
+
+---
+
+(source_file
+  (assignment
+    (ident)
+    (func (params (ident) (ident)) (inline_func_suite (literal)))))
+
+========================================
+basic function w/ param & trailing comma
+========================================
+
+f = (a,) => nil
+
+---
+
+(source_file
+  (assignment
+    (ident)
+    (func (params (ident)) (inline_func_suite (literal)))))

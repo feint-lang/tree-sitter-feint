@@ -1,0 +1,47 @@
+============
+inline block
+============
+
+block -> nil
+
+---
+
+(source_file (block (inline_suite (literal))))
+
+==============
+block w/ suite
+==============
+
+block ->
+    nil
+
+---
+
+(source_file (block (suite (literal))))
+
+======================
+assign to inline block
+======================
+
+r = block -> nil
+
+---
+
+(source_file
+  (assignment
+    (ident)
+    (block (inline_suite (literal)))))
+
+===============
+assign to block
+===============
+
+r = block ->
+    nil
+
+---
+
+(source_file
+  (assignment
+    (ident)
+    (block (suite (literal)))))
