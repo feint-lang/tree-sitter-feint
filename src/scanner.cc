@@ -7,6 +7,10 @@ namespace {
 
 using std::vector;
 
+void _debug() {
+  std::cerr << std::endl;
+}
+
 template <class T>
 void _debug(T t) {
   std::cerr << t << std::endl;
@@ -24,7 +28,6 @@ void debug(Args... args) {
   std::cerr << "[DEBUG] ";
   _debug(args...);
 }
-
 
 enum TokenType {
   SCOPE_START,
