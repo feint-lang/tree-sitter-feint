@@ -7,10 +7,32 @@ namespace {
 
 using std::vector;
 
+template <class T>
+void _debug(T t) {
+  std::cerr << t << std::endl;
+}
+
+template <class T, class... Args>
+void _debug(T t, Args... args) {
+  std::cerr << t;
+  _debug(args...);
+}
+
+template <class... Args>
+void debug(Args... args) {
+  std::cerr << std::boolalpha;
+  std::cerr << "[DEBUG] ";
+  _debug(args...);
+}
+
+
 enum TokenType {
+  SCOPE_START,
+  FUNC_SCOPE_START,
   NEWLINE,
   INDENT,
   DEDENT,
+  ERROR_SENTINEL,
 };
 
 enum Bracket {
@@ -32,15 +54,12 @@ struct Scanner {
   // Save state to buffer when `scan` recognizes a token. This will be
   // called *after* `scan` (if it returns `true`).
   unsigned serialize(char *buffer) {
-    std::cout << "[DEBUG] serialize()\n";
     buffer[0] = indent_level;
     return 1;
   }
 
   // Restore state from buffer. This will be called *before* `scan`.
   void deserialize(const char *buffer, unsigned length) {
-    std::cout << "[DEBUG] deserialize()\n";
-
     // XXX: Always reset state first.
     reset();
 
@@ -63,39 +82,44 @@ struct Scanner {
   // tree-sitter will first recognize `block` and `->` and then it will
   // call this method.
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
-    std::cout << "[DEBUG] scan()\n";
-    std::cout << "[DEBUG] " << "col: " << lexer->get_column(lexer) << "\n";
-    std::cout << "[DEBUG] " << "next: " << lexer->lookahead << "\n";
+    debug("scan()");
+    debug("col: ", lexer->get_column(lexer));
+    debug("next: '", (char)lexer->lookahead, "'");
 
     consume_whitespace(lexer);
-    lexer->mark_end(lexer);
 
-    // NOTE: This is simplistic/wonky/incorrect/etc (WIP)
-    if (lexer->lookahead == '\n') {
-      std::cout << "[DEBUG] " << "found NEWLINE @ " << lexer->get_column(lexer) + 1 << "\n";
-      advance(lexer);
-      uint8_t count = consume_whitespace(lexer);
-      if (count == 4) {
-          indent_level += 1;
-          lexer->result_symbol = INDENT;
-          return true;
-      } else {
-          indent_level -= 1;
-          lexer->result_symbol = DEDENT;
-          return true;
-      }
+    if (lexer->eof(lexer)) {
+      debug("EOF in scan");
+      lexer->result_symbol = NEWLINE;
+      return true;
     }
 
+    if (lexer->lookahead == '-') {
+        advance(lexer);
+        if (lexer->lookahead == '>') {
+          advance(lexer);
+          lexer->result_symbol = SCOPE_START;
+          debug("result_symbol = SCOPE_START");
+          return true;
+        }
+    } else if (lexer->lookahead == '\n') {
+        advance(lexer);
+        lexer->result_symbol = NEWLINE;
+        debug("result_symbol = NEWLINE");
+        return true;
+    }
+
+    debug("no match");
     return false;
   }
 
   uint8_t consume_whitespace(TSLexer *lexer) {
     uint8_t count = 0;
     while (lexer->lookahead == ' ') {
-      std::cout << "[DEBUG] " << "skip space\n";
       skip(lexer);
       ++count;
     }
+    debug("consumed ", (int)count, " space(s)");
     return count;
   }
 
