@@ -1,0 +1,21 @@
+CONSTANT = 1
+
+block -> nil
+
+# This is a function
+f = () -> nil
+g = (a) -> a
+h = (a, b) -> a, b
+
+i = 1
+d = 1.0
+
+s = "string"
+f = $"format string"
+
+t0 = ()        # empty tuple
+t1 = (t0,)     # tuple with one item
+t2 = (t0, t1)  # tuple with two items
+
+t3 = (1, 1.0, "str", $"format str")
+print(t3)

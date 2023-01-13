@@ -1,51 +1,57 @@
-==============
-basic function
-==============
+===============
+inline function
+===============
 
 f = () => nil
 
 ---
 
-(source_file
+(module
   (assignment
-    (ident)
-    (func (params) (inline_func_suite (literal)))))
+    (var_ident)
+    (func (params) (inline_func_suite (func_scope_start) (atom)))))
 
-=======================
-basic function w/ param
-=======================
+========================
+inline function w/ param
+========================
 
 f = (a) => nil
 
 ---
 
-(source_file
+(module
   (assignment
-    (ident)
-    (func (params (ident)) (inline_func_suite (literal)))))
+    (var_ident)
+    (func
+      (params (param (var_ident)))
+      (inline_func_suite (func_scope_start) (atom)))))
 
-==========================
-basic function w/ 2 params
-==========================
+===========================
+inline function w/ 2 params
+===========================
 
 f = (a, b) => nil
 
 ---
 
-(source_file
+(module
   (assignment
-    (ident)
-    (func (params (ident) (ident)) (inline_func_suite (literal)))))
+    (var_ident)
+    (func
+        (params (param (var_ident)) (param (var_ident)))
+        (inline_func_suite (func_scope_start) (atom)))))
 
-========================================
-basic function w/ param & trailing comma
-========================================
+=========================================
+inline function w/ param & trailing comma
+=========================================
 
 f = (a,) => nil
 
 ---
 
-(source_file
+(module
   (assignment
-    (ident)
-    (func (params (ident)) (inline_func_suite (literal)))))
+    (var_ident)
+    (func
+      (params (param (var_ident)))
+      (inline_func_suite (func_scope_start) (atom)))))

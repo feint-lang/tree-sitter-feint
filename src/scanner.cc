@@ -32,7 +32,7 @@ void debug(Args... args) {
 enum TokenType {
   SCOPE_START,
   FUNC_SCOPE_START,
-  NEWLINE,
+  END_OF_STATEMENT,
   INDENT,
   DEDENT,
   ERROR_SENTINEL,
@@ -93,7 +93,7 @@ struct Scanner {
 
     if (lexer->eof(lexer)) {
       debug("EOF in scan");
-      lexer->result_symbol = NEWLINE;
+      lexer->result_symbol = END_OF_STATEMENT;
       return true;
     }
 
@@ -105,10 +105,18 @@ struct Scanner {
           debug("result_symbol = SCOPE_START");
           return true;
         }
+    } else if (lexer->lookahead == '=') {
+      advance(lexer);
+      if (lexer->lookahead == '>') {
+        advance(lexer);
+        lexer->result_symbol = FUNC_SCOPE_START;
+        debug("result_symbol = FUNC_SCOPE_START");
+        return true;
+      }
     } else if (lexer->lookahead == '\n') {
         advance(lexer);
-        lexer->result_symbol = NEWLINE;
-        debug("result_symbol = NEWLINE");
+        lexer->result_symbol = END_OF_STATEMENT;
+        debug("result_symbol = END_OF_STATEMENT");
         return true;
     }
 

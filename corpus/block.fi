@@ -6,4 +6,15 @@ block -> nil
 
 ---
 
-(source_file (block (inline_suite (literal))))
+(module (block (inline_suite (scope_start) (atom))))
+
+=====
+block
+=====
+
+block ->
+    nil
+
+---
+
+(module (block (suite (scope_start) (atom))))
