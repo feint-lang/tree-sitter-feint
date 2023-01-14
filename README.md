@@ -9,7 +9,7 @@
  
 2. Clone this repo:
 
-   ```
+   ```shell
    git clone git@github.com:wylee/tree-sitter-feint.git ~/path/to/tree-sitter-feint
    ```
 
@@ -70,7 +70,7 @@
 
 4. Run `nvim` and install the `feint` tree-sitter impementation:
 
-   ```
+   ```ex
    :TSInstall feint
    ```
 
