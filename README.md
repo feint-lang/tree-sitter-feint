@@ -1,4 +1,4 @@
-# tree-sitter implementation for [feint]
+# [tree-sitter] implementation for [feint]
 
 > NOTE: This is a work in progress.
 
@@ -75,8 +75,8 @@
    ```
 
 [feint]: https://github.com/wylee/feint
-[treesitter]: https://github.com/tree-sitter/tree-sitter
-[treesitter CLI]: https://github.com/tree-sitter/tree-sitter/tree/master/cli
+[tree-sitter]: https://github.com/tree-sitter/tree-sitter
+[tree-sitter CLI]: https://github.com/tree-sitter/tree-sitter/tree/master/cli
 [pathogen]: https://github.com/tpope/vim-pathogen
 [vim-plug]: https://github.com/junegunn/vim-plug
 [nvim-treesitter]: https://github.com/nvim-treesitter/nvim-treesitter
