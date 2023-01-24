@@ -1,6 +1,7 @@
 // NOTE: Inspired by https://github.com/tree-sitter/tree-sitter-python
 #include <tree_sitter/parser.h>
 #include <iostream>
+#include <stdlib.h>
 #include <vector>
 
 namespace {
@@ -24,9 +25,11 @@ void _debug(T t, Args... args) {
 
 template <class... Args>
 void debug(Args... args) {
-  std::cerr << std::boolalpha;
-  std::cerr << "[DEBUG] ";
-  _debug(args...);
+  if (getenv("FEINT_TREE_SITTER_DEBUG") != NULL) {
+    std::cerr << std::boolalpha;
+    std::cerr << "[DEBUG] ";
+    _debug(args...);
+  }
 }
 
 enum TokenType {
